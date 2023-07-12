@@ -1,0 +1,17 @@
+{
+  "name": "fhevmjs-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "balanceOf": "node src/balanceOf.js",
+    "mint": "node src/mint.js",
+    "transfer": "node src/transfer.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ethers": "^6.6.3",
+    "fhevmjs": "^0.1.1"
+  }
+}
