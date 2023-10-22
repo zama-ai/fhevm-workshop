@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 
-pragma solidity >=0.8.13 <0.8.20;
+pragma solidity 0.8.19;
 
 import "fhevm/lib/TFHE.sol";
 
@@ -31,15 +31,15 @@ contract EncryptedERC20 is EIP712 {
     function mint(bytes calldata amountCiphertext) public {
         require(msg.sender == contractOwner);
         euint32 amount = TFHE.asEuint32(amountCiphertext);
-        balances[contractOwner] = TFHE.add(balances[contractOwner], amount);
+        balances[contractOwner] = balances[contractOwner] + amount;
     }
 
     function transfer(address to, bytes calldata amountCiphertext) public {
         euint32 amount = TFHE.asEuint32(amountCiphertext);
-        TFHE.req(TFHE.le(amount, balances[msg.sender]));
+        require(TFHE.decrypt(TFHE.le(amount, balances[msg.sender])));
 
-        balances[to] = TFHE.add(balances[to], amount);
-        balances[msg.sender] = TFHE.sub(balances[msg.sender], amount);
+        balances[to] = balances[to] + amount;
+        balances[msg.sender] = balances[msg.sender] - amount;
     }
 
     modifier signedBySender(bytes32 publicKey, bytes memory signature) {
