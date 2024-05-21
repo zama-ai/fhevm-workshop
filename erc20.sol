@@ -8,6 +8,7 @@ import "./eip712-modifier.sol";
 
 contract EncryptedERC20 is EIP712Reencrypt {
     address public contractOwner;
+    uint64 public totalSupply;
 
     constructor() {
         contractOwner = msg.sender;
@@ -32,6 +33,7 @@ contract EncryptedERC20 is EIP712Reencrypt {
     function mint(uint64 amount) public {
         require(msg.sender == contractOwner);
         balances[contractOwner] = TFHE.add(balances[contractOwner], amount);
+        totalSupply = totalSupply + amount;
     }
 
     function transfer(address to, bytes calldata amountCiphertext) public returns (bool) {
