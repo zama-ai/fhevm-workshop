@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 
 import "fhevm/lib/TFHE.sol";
 
-import "./eip712-modifier.sol";
+import "./eip712-reencrypt.sol";
 
 contract EncryptedERC20 is EIP712Reencrypt {
     address public contractOwner;
