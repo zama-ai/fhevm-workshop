@@ -12,6 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "ethers": "^6.6.3",
-    "fhevmjs": "^0.1.1"
+    "fhevmjs": "^0.4.0"
   }
 }
