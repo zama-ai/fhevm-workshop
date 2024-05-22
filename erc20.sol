@@ -57,8 +57,9 @@ contract EncryptedERC20 is EIP712Reencrypt {
         euint64 amount = TFHE.asEuint64(amountCiphertext);
 
         ebool sufficient = TFHE.le(amount, balances[msg.sender]);
-        balances[to] = TFHE.select(sufficient, balances[to] + amount, balances[to]);
-        balances[msg.sender] = TFHE.select(sufficient, balances[msg.sender] - amount, balances[msg.sender]);
+
+        balances[to] = balances[to] + TFHE.select(sufficient, amount, TFHE.asEuint64(0));
+        balances[msg.sender] = balances[msg.sender] - TFHE.select(sufficient, amount, TFHE.asEuint64(0));
         
         return true;
     }
