@@ -44,13 +44,15 @@ contract EncryptedERC20 is EIP712Reencrypt {
     function transfer_leaking(address to, bytes calldata amountCiphertext) internal returns (bool) {
         euint64 amount = TFHE.asEuint64(amountCiphertext);
 
-        bool sufficient = TFHE.decrypt(TFHE.le(amount, balances[msg.sender]));
-        if (sufficient) {
+        ebool sufficient = TFHE.le(amount, balances[msg.sender]);
+
+        bool decrypted_sufficient = TFHE.decrypt(sufficient);
+        if (decrypted_sufficient) {
             balances[to] = balances[to] + amount;
             balances[msg.sender] = balances[msg.sender] - amount;
         }
 
-        return sufficient;
+        return decrypted_sufficient;
     }
 
     function transfer_nonleaking(address to, bytes calldata amountCiphertext) internal returns (bool) {
