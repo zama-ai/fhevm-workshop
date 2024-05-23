@@ -1,4 +1,4 @@
-# EthCC 23 Workshop
+# fhEVM Workshop
 
 Welcome to this workshop on building an encrypted ERC20 token!
 
@@ -37,7 +37,7 @@ CONTRACT=<address> npm run mint 100
 Get your current balance:
 
 ```bash
-CONTRACT=<address> npm run balance
+CONTRACT=<address> npm run balanceOf
 ```
 
 Make a transfer:

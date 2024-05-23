@@ -1,5 +1,5 @@
-const { createInstance } = require('fhevmjs');
-const { JsonRpcProvider } = require('ethers');
+const { createInstance, getPublicKeyCallParams } = require('fhevmjs');
+const { ethers, JsonRpcProvider } = require('ethers');
 const { DEVNET_URL } = require('./constants');
 
 let _instance;
@@ -11,7 +11,9 @@ const getInstance = async () => {
   const network = await provider.getNetwork();
   const chainId = +network.chainId.toString();
   // Get blockchain public key
-  const publicKey = await provider.call({ to: '0x0000000000000000000000000000000000000044' });
+  const rawPublicKeyParams = await provider.call(getPublicKeyCallParams());
+  const publicKeyParams = ethers.AbiCoder.defaultAbiCoder().decode(["bytes"], rawPublicKeyParams);
+  const publicKey = publicKeyParams[0];
   // Create instance
   _instance = createInstance({ chainId, publicKey });
   return _instance;
