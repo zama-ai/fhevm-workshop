@@ -37,8 +37,23 @@ contract EncryptedERC20 is EIP712Reencrypt {
     }
 
     function transfer(address to, bytes calldata amountCiphertext) public returns (bool) {
-        return transfer_leaking(to, amountCiphertext);
+        return transfer_reverting(to, amountCiphertext);
+        // return transfer_leaking(to, amountCiphertext);
         // return transfer_nonleaking(to, amountCiphertext);
+    }
+
+    function transfer_reverting(address to, bytes calldata amountCiphertext) internal returns (bool) {
+        euint64 amount = TFHE.asEuint64(amountCiphertext);
+
+        ebool sufficient = TFHE.le(amount, balances[msg.sender]);
+
+        bool decrypted_sufficient = TFHE.decrypt(sufficient);
+        require(decrypted_sufficient);
+
+        balances[to] = balances[to] + amount;
+        balances[msg.sender] = balances[msg.sender] - amount;
+
+        return true;
     }
 
     function transfer_leaking(address to, bytes calldata amountCiphertext) internal returns (bool) {
