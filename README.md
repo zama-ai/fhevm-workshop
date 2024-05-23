@@ -16,17 +16,17 @@ Install Zama Devnet in MetaMask:
 
 ## Encrypted ERC20
 
-Set env variable `ETHCC23_PRIVATE_KEY` to private key that was used to deploy the contract (as copied from MetaMask, i.e. without `0x` prefix):
+Set env variable `WORKSHOP_PRIVATE_KEY` to private key that was used to deploy the contract (as copied from MetaMask, i.e. without `0x` prefix):
 
 ```
-export ETHCC23_PRIVATE_KEY=<private key>
+export WORKSHOP_PRIVATE_KEY=<private key>
 ```
 
 When a contract have been deployed to the devnet, the Python files can be used to interact with it by set env variable `CONTRACT` to the address (as copied from Remix) and saving the ABI to `abi.json`.
 
 ### Nodejs with fhevmjs
 
-Go in `fhevmjs` directory and `npm install`. Be sure you set `ETHCC23_PRIVATE_KEY` and `CONTRACT`
+Go in `fhevmjs` directory and `npm install`. Be sure you set `WORKSHOP_PRIVATE_KEY` and `CONTRACT`
 
 Mint new tokens:
 
